@@ -1,11 +1,5 @@
 # Unit Testing Documentation template
 
-Authors:
-
-Date:
-
-Version:
-
 
 
 # Contents
@@ -14,7 +8,7 @@ Version:
 
 
 
-- [White Box Unit Tests](#white-box-unit-tests)
+
 
 
 
@@ -58,7 +52,7 @@ Version:
 
 | Lenght of input vector | Type of parameter passed to orderIntegers | Valid/Invalid | Description of the test case| JUnit test case     |
 | ---------------- | ---------------- | ------------------------- | ------------------- | ------------- |
-| Different form 3          | -        | I     |  int v[]=[1,2,3,4];<br /> orderIntegers(v)--> Exception     | com.polito.exercise1.blackboxtests.tc1     | 
+| Different from 3          | -        | I     |  int v[]=[1,2,3,4];<br /> orderIntegers(v)--> Exception     | com.polito.exercise1.blackboxtests.tc1     | 
 | = 3          | integer        | V    |  int v[]=[5,-2,8];<br /> orderIntegers(v) --> [8,5,-2] , 8     | com.polito.exercise1.blackboxtests.tc2     |
 |              | all other types        | I  |  double v[]=[1.3,2.3,3.4];<br /> orderIntegers(v) --> Exception     | com.polito.exercise1.blackboxtests.tc3     |  
 
@@ -163,6 +157,7 @@ Finally i have assumed that the square is a particular case of parallelogram.
 |Type of parameters passed to parallelogram   |           |
 | Signs of input parameters  | 0, -1, 1 |
 | (slope of P1P3)= (slope od P2P3) and <br /> (slope of P1P2) = (slope od P3P4)      ||
+|All four points are different||
 
 
 <br />
@@ -178,3 +173,165 @@ Finally i have assumed that the square is a particular case of parallelogram.
 |           | at least one negative      |-||V             |parallelogram(0,0,0,-2,0,3,3,2) --> -1 | com.polito.exercise3.<br />blackboxtests.tc4 |
 | All other types          | -       |-| |V             | parallelogram(1.2,4.3,5.6,2.4,6.7,2.5,3.6,2.7) --> -1| com.polito.exercise3.<br />blackboxtests.tc5 |
 
+
+# Black Box Unit Tests: Exercise4
+
+### public class Item { 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private String itemCode;  \\\ item number <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private int availability; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private String description; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private String name; 
+### }
+### public class Inventory{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void addItem(Item i) throws ItemAlreadyExists, InventoryOverflow; <br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Item searchItem (String itemCode) throws ItemNotExists; <br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public new Item(String itemCode,int quantity);  <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int availabilityItem (String itemCode) throws ItemNotExists; <br /> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void subtractItem (String itemCode) throws ItemNotExists, ItemNotAvailable; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void addQtyToItem(String itemCode, int qty_to_add); <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void subtractQtyToItem(String itemCode, int qty_to_subtract);
+### }
+
+
+**Criteria for method addItem:**
+
+- Type of parameter for addItem
+
+- Item already exists
+
+- Total number of items in the inventory
+
+
+**Criteria for searchItem and availabilityItem methods:**
+- Type of parameter for searchItem and availabilityItem methods
+
+- Item not exists
+
+**Criteria for method new Item:**
+- Couple of types of parameters (in oreder) for new Item 
+
+- Sign of quantity
+
+**Criteria for method subtractItem:**
+- Type of parameter for subtractItem
+
+- Item not exists
+
+- Item not available
+
+**Criteria for addQtyToItem and subtractQtyToItem methods:**
+
+- Couple of types of parameters (in oreder)
+
+- Qunatity of item (availability attribute)
+
+- Item not Exists
+
+<br />
+
+**Predicates for all methods:**
+
+| Criteria                  | Predicate    |
+| ------------------------- | ------------ |
+|Item already exists|yes|
+|                   |no|
+|Type of parameters <br /> (for searchItem method,availabilityItem <br /> and subtractItem methods)|String|
+|                                                                     |All other types|
+|Item not exists|yes|
+|               |no|
+|Couple of types of parameters in order <br /> (for new Item, addQtyToItem and <br /> subtractQtyToItem methods) |(String, Integer)|
+|                                           |All other combinations of two types|
+|Item not available|yes|
+|                  |no|
+|Total number of items in the inventory|0 to maxNumber|
+|                                      |maxNumber+1 and above|
+|Quantity of item (availability attribute) | under 0 |
+|                                          | 0 to maxQuantity|
+|                                          | maxQuantity+1 and above|
+|Sign of quantity| positive |
+|                | negative |
+
+<br />
+
+**Boundaries for all methods**: <br />
+<br /> Are shown only the relevant criteria for the boundary;
+
+| Criteria            | Boundary values             |
+| ------------------- | --------------------------- |
+| Total number of items in the inventory  | 0,1, maxNumber-1,maxNumber, maxnumber+1, maxint-1,maxint|
+|Quantity of item (availability attribute)|minint,minint+1,-1,0,1, axQuantity-1,maxQuantity,maxquantity+1, maxint-1, maxint|
+|Sign of quantity| -1,0,1|
+
+<br />
+
+**Combination of predicates for method new Item**
+
+|  Couple of types of parameters (in oreder) |Sign of quantity| Valid/Invalid | Description of the test case                                 | JUnit test case (T implies calling the <br /> constructor in the Inventory class)                               |
+| ---------------- | ---------------- | ------------------------- | ------------------- | ------------- | ------------------------------------------------------------ | 
+|  (String,Integer) | positive   |    V     | Item item= new Item(""+1,3);| com.polito.exercise4.<br />blackboxtests.tc1|
+||negative|I|Item item= new Item(""+1,-3); --> Error;|com.polito.exercise4.<br />blackboxtests.tc2 |
+|  All other combinations of two types | -   |    I     | i.availabilityItem("phone", 3.5)--> Error; | com.polito.exercise4.<br />blackboxtests.tc3 |
+
+<br />
+
+**Combination of predicates for method addItem**
+
+| Type of the input parameter for addItem| Item already exists |Total number of items in the inventory | Valid/Invalid | Description of the test case                                 | JUnit test case                                |
+| ---------------- | ---------------- | ------------------------- | ------------------- | ------------- | ------------------------------------------------------------ | -------------------------------------------- |
+| Item          | no         | maxNumber+1 and above    |    I     | for(j=1; j<= maxNumber; j++){<br /> Item item= new Item(""+j,0); <br />i.addItem(item);<br />}<br />Item item= new Item(""+maxNumber+1,0); <br /> i.addItem(item)-->InventoryOverflow; | com.polito.exercise4.<br />blackboxtests.tc4 |
+|||0 to maxNumber|V|for(j=1; j<= maxNumber-1; j++){<br />Item item= new Item(""+j,0); <br />i.addItem(item);<br />}<br /> Item item= new Item(""+maxNumber,0); <br /> i.addItem(item); | com.polito.exercise4.<br />blackboxtests.tc5 |
+||yes|-|I|Item item= new Item(maxNumber,0); <br />i.addItem(item);<br /> i.addItem(item) --> ItemAlreadyExists; | com.polito.exercise4.<br />blackboxtests.tc6 |
+|All other types|-|-|I|i.addItem("phone")--> Error;| com.polito.exercise4.<br />blackboxtests.tc7 |
+
+<br />
+
+**Combination of predicates for method searchItem**
+
+|  Type of input parameter |Item not exists| Valid/Invalid | Description of the test case                                 | JUnit test case (T implies calling the <br /> constructor in the Inventory class)                               |
+| ---------------- | ---------------- | ------------------------- | ------------------- | ------------- | ------------------------------------------------------------ | 
+|  String | no   |    V     | Item item= new Item(""+1,0); <br />i.searchItem(""+1) --> item; | com.polito.exercise4.<br />blackboxtests.tc8 |
+||yes|I|i.searchItem(""maxNumber+10) --> ItemNotExists;|com.polito.exercise4.<br />blackboxtests.tc9 |
+|  All other combinations of two types | -   |    I     | i.searchItem(113)--> Error; | com.polito.exercise4.<br />blackboxtests.tc10 |
+
+<br />
+
+**Combination of predicates for method availabilityItem**
+
+|  Type of input parameter |Item not exists| Valid/Invalid | Description of the test case                                 | JUnit test case (T implies calling the <br /> constructor in the Inventory class)                               |
+| ---------------- | ---------------- | ------------------------- | ------------------- | ------------- | ------------------------------------------------------------ | 
+|  String | no   |    V     | Item item= new Item(""+1,0); <br /> availablity(""+1) --> 0 | com.polito.exercise4.<br />blackboxtests.tc11 |
+||yes|I|i.searchItem(""+maxNumber+10) --> ItemNotExists;|com.polito.exercise4.<br />blackboxtests.tc12 |
+|  All other combinations of two types | -   |    I     | i.availabilityItem(115)--> Error; | com.polito.exercise4.<br />blackboxtests.tc13 |
+
+<br />
+
+**Combination of predicates for method subtractItem**
+
+|  Type of input parameter |Item not exists|Item not available|Valid/Invalid | Description of the test case | JUnit test case (T implies calling the <br /> constructor in the Inventory class)                               |
+| ---------------- | ---------------- | --- |------------------------- | ------------------- | ------------- | ------------------------------------------ | 
+|  String | no   | no |   V     | Item item= new Item(""+1,1); <br /> i.subtractItem(""+1); | com.polito.exercise4.<br />blackboxtests.tc14 |
+|  |   | yes |   I     | Item item= new Item(""+1,0); <br /> i.subtractItem(""+1)--> ItemNotAvailable; | com.polito.exercise4.<br />blackboxtests.tc15 |
+|  |   yes | - |   I    | i.subtractItem(""+maxNumber+10) --> ItemNotExists; | com.polito.exercise4.<br />blackboxtests.tc16 |
+|  All other types |   - | - |   I     | i.subtractItem(123.45)--> Error; | com.polito.exercise4.<br />blackboxtests.tc17 |
+
+<br />
+
+**Combination of predicates for method addQtyToItItem**
+
+|  Couple of types of parameters (in oreder) |Item not exists|Qunatity of item (availability attribute)|Valid/Invalid | Description of the test case | JUnit test case (T implies calling the <br /> constructor in the Inventory class)                               |
+| ---------------- | ---------------- | --- |------------------------- | ------------------- | ------------- | ------------------------------------------ | 
+|  (String,Integer) | no   | 0 to maxQuantity |   V     | Item item= new Item(""+1,0); <br /> for(j=1; j<=maxQuantity; j++){<br /> i.addQtytoItem(""+1, 1);} | com.polito.exercise4.<br />blackboxtests.tc18 |
+|  |   | maxQuantity+1 and above |   I     |Item item= new Item(""+1,0); <br />  for(j=1; j<=maxQuantity; j++){<br /> i.addQtytoItem(""+1, 1);}<br /> i.addQtyToItem(""+1,1); --> Error  | com.polito.exercise4.<br />blackboxtests.tc19 |
+|  |  yes | - |   I     | i.addQtyToItem(""+maxNumber+1,1) --> ItemNotExists| com.polito.exercise4.<br />blackboxtests.tc20 |
+|All other couple types of parameters  | - | - |   I     | i.addQtyToItem("phone",1.5) --> Error| com.polito.exercise4.<br />blackboxtests.tc21 |
+
+<br />
+
+**Combination of predicates for method subtractQtyToItItem**
+
+|  Couple of types of parameters (in oreder) |Item not exists|Qunatity of item (availability attribute)|Valid/Invalid | Description of the test case | JUnit test case (T implies calling the <br /> constructor in the Inventory class)                               |
+| ---------------- | ---------------- | --- |------------------------- | ------------------- | ------------- | ------------------------------------------ | 
+|  (String,Integer) | no   | 0 to maxQuantity |   V     | Item item= new Item(""+1,maxQuantity); <br /> for(j=1; j<=maxQuantity; j++){<br /> i.subtractQtytoItem(""+1, 1);} | com.polito.exercise4.<br />blackboxtests.tc22 |
+|  |   | under 0|   I     | Item item= new Item(""+1,maxQuantity); <br />  for(j=1; j<=maxQuantity; j++){<br /> i.subtracttoItem(""+1, 1);}<br /> i.subtractQtytoItem(""+1,1); --> Error  | com.polito.exercise4.<br />blackboxtests.tc23 |
+|  |  yes | - |   I     | i.subtractQtytoItem(""+maxNumber+1,1) --> ItemNotExists| com.polito.exercise4.<br />blackboxtests.tc20 |
+|All other couple types of parameters  | - | - |   I     | i.subtractQtytoItem("phone",1.5) --> Error| com.polito.exercise4.<br />blackboxtests.tc24 |
